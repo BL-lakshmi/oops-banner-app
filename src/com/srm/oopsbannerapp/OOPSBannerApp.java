@@ -1,45 +1,18 @@
 /**
- * OOPSBannerApp UC7 - OOPS Banner Display Application
+ * OOPSBannerApp UC8 - OOPS Banner Display Application
  * This class demonstrates a simple java application that displays the object-  * oriented programming system oops acronym to the console.
  *@author Developer
- * @version 7.0
+ * @version 8.0
  */
 package com.srm.oopsbannerapp;
 
+import java.util.HashMap;
+
 public class OOPSBannerApp {
-    static class CharacterPatternMap {
 
-        private final Character character;
-        private final String[] pattern;
-
-        /**
-         * Constructor to initialize character and pattern
-         *
-         * @param character character to map
-         * @param pattern   7-line ASCII pattern
-         */
-        public CharacterPatternMap(Character character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
-        /**
-         * @return mapped character
-         */
-        public Character getCharacter() {
-            return character;
-        }
-        /**
-         * @return ASCII pattern
-         */
-        public String[] getPattern() {
-            return pattern;
-        }
-    }
-    public static CharacterPatternMap[] createCharacterPatternMaps() {
-
-        CharacterPatternMap[] charMaps = new CharacterPatternMap[4];
-
-        charMaps[0] = new CharacterPatternMap('O', new String[]{
+    public static HashMap<Character, String[]> createCharacterMap() {
+        HashMap<Character, String[]> charMap = new HashMap<>();
+        charMap.put('O',new String[]{
                 "   ***   ",
                 " **   ** ",
                 "**     **",
@@ -49,7 +22,7 @@ public class OOPSBannerApp {
                 "   ***   "
         });
 
-        charMaps[1] = new CharacterPatternMap('P', new String[]{
+        charMap.put('P',new String[]{
                 "******   ",
                 "**    ** ",
                 "**     **",
@@ -59,7 +32,7 @@ public class OOPSBannerApp {
                 "**       "
         });
 
-        charMaps[2] = new CharacterPatternMap('S', new String[]{
+        charMap.put('S',new String[]{
                 "   ***** ",
                 " **      ",
                 "**       ",
@@ -69,7 +42,7 @@ public class OOPSBannerApp {
                 "  *****  "
         });
 
-        charMaps[3] = new CharacterPatternMap(' ', new String[]{
+        charMap.put(' ',new String[]{
                 "        ",
                 "        ",
                 "        ",
@@ -78,52 +51,25 @@ public class OOPSBannerApp {
                 "        ",
                 "        "
         });
-
-        return charMaps;
+        return charMap;
     }
-    /**
-     * Retrieves the ASCII pattern for a given character
-     *
-     * @param ch       character to look up
-     * @param charMaps array of character-pattern mappings
-     * @return pattern array for the character
-     */
-    public static String[] getCharacterPattern(char ch, CharacterPatternMap[] charMaps) {
+    public static void displayBanner(String message, HashMap<Character, String[]> charMap) {
 
-        for (CharacterPatternMap map : charMaps) {
-            if (map.getCharacter() == ch) {
-                return map.getPattern();
-            }
-        }
-
-        // Default: return space pattern if character not found
-        return getCharacterPattern(' ', charMaps);
-    }
-
-    /**
-     * Prints a message as an ASCII banner
-     *
-     * @param message  message to print
-     * @param charMaps available character-pattern mappings
-     */
-    public static void printMessage(String message, CharacterPatternMap[] charMaps) {
-
-        for (int row = 0; row < 7; row++) {
-
-            StringBuilder line = new StringBuilder();
-
+        int patternHeight = charMap.get('O').length;
+        for (int line = 0; line < patternHeight; line++) {
+            StringBuilder sb = new StringBuilder();
             for (char ch : message.toCharArray()) {
-                String[] pattern = getCharacterPattern(ch, charMaps);
-                line.append(pattern[row]).append(" ");
+                String[] pattern = charMap.get(ch);
+                sb.append(pattern[line]).append(" ");
             }
-            System.out.println(line);
+            System.out.println(sb.toString());
         }
     }
 
     public static void main(String args[]){
-        CharacterPatternMap[] charMaps = createCharacterPatternMaps();
+        HashMap<Character, String[]> charMap = createCharacterMap();
         String message = "OOPS";
-        printMessage(message, charMaps);
+        displayBanner(message, charMap);
     }
 
 }
